@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    </head>
+    <body>
+        <!-- 单个元素 -->
+        <span v-once>This will never change: {{msg}}</span>
+        <!-- 有子元素 -->
+        <div v-once>
+            <h1>comment</h1>
+            <p>{{msg}}</p>
+        </div>
+        <!-- 组件 -->
+        <my-component v-once :comment="msg"></my-component>
+        <!-- `v-for` 指令-->
+        <ul>
+            <li v-for="i in list" v-once>{{i}}</li>
+        </ul>
+    </body>
+</html>

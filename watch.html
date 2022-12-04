@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app"></div>
+    </body>
+
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data() {
+                return {
+                    bir: "2020-5-20",
+                };
+            },
+            methods: {
+                reverseMessage() {
+                    console.log("methods");
+                    return this.msg.split("").reverse().join("");
+                },
+            },
+            computed: {
+                getAge() {
+                    setTimeout(() => {
+                        return new Date().getFullYear() - new Date(this.bir).getFullYear();
+                    }, 2000);
+                },
+            },
+            // watch 可异步操作 computed 不可
+            // 监听数据的变化从而引起另外—个数据的变化[
+            // 只有当数据发生变化了才能监听到
+            watch: {
+                bir: {
+                    // execute program
+                    // when data has change, that will be automatic execute
+                    handler() {
+                        new Date().getFullYear() - new Date(this.bir).getFullYear();
+                    },
+                },
+            },
+        });
+        // computed:计算属性通过计算得出的属性//计算属性在打开页面的时候会自动执行一次
+        // 1.computed计算属性依赖于data中的数据,会时刻监听依赖的data中的数据,只要依赖的数据发生变化, computed的值也会发生变化
+        // 2.computed是有缓存的,只有当数据发生变化的时候才会重新计算,否则从缓存中直接读取数据
+        // 3.computed 中的get是获取当前属性的值, set是当设置当前属性值的时候触发.大部分情况下,我们只是想获取当前属性的值,很少去设置
+        // 当前属性的值,所以可以简写成函数的形式(默认获取的是get属性).如果我们需要给当前属性设置值,是不能简写的
+    </script>
+</html>

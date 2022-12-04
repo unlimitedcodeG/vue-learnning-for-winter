@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <p>{{ foo }}</p>
+            <!-- 这里的 `foo` 不会更新！ -->
+            <button v-on:click="foo = 'baz'">Change it</button>
+        </div>
+        <script>
+            var obj = {
+                foo: "bar",
+            };
+
+            Object.freeze(obj);
+
+            new Vue({
+                el: "#app",
+                data: obj,
+            });
+
+            var data = { a: 1 };
+
+            var vm = new Vue({
+                el: "#example",
+                data: data,
+            });
+
+            vm.$data == data;
+            vm.$el == document.getElementById("example");
+
+            vm.$watch("a", function (newValue, oldValue) {});
+
+            new Vue({
+                data: {
+                    a: 1,
+                },
+                created: function () {
+                    // `this` 指向 vm 实例
+                    console.log("a is: " + this.a);
+                },
+            });
+        </script>
+    </body>
+</html>

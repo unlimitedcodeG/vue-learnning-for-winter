@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            .span {
+                padding: 10px;
+            }
+            .danger {
+                color: #fff;
+                background: red;
+            }
+            .waring {
+                color: lawngreen;
+                background: rgb(3, 15, 128);
+            }
+        </style>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    </head>
+    <body>
+        <!-- 不传参数的情况下 不加小括号 -->
+        <div id="app">
+            <h3>
+                my todos list
+                <span :class="active" v-if="completed!==list.length">{{list.length - completed}}</span>
+            </h3>
+            <input type="text" class="title" v-model.trim="txt" placeholder="请输入新任务" @keydown.enter="addItem()" />
+
+            <table>
+                <tr>
+                    <th>#</th>
+                    <th>任务列表</th>
+                    <th>筛选</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                <tr v-for="(item,index) in filterList" :key="item.id">
+                    <td>{{index + 1}}</td>
+                    <td>{{item.text}}</td>
+                    <td><input type="checkbox" v-model="item.done" /></td>
+                    <td>{{item.done?"完成":"未完成"}}</td>
+                    <td><a href="#" @click="removeItem(item)">删除</a></td>
+                </tr>
+            </table>
+            <p><input type="checkbox" / v-model="allChecked">显示全部</p>
+            <p>已完成 <strong>{{completed}}</strong>/ 总数 <strong>{{list.length}}</strong></p>
+        </div>
+        <script>
+            Vue.config.productionTip = false;
+            var vm = new Vue({
+                el: "#app",
+                data() {
+                    return {
+                        txt: "",
+                        list: [
+                            {
+                                id: 1,
+                                text: "吃饭",
+                                done: true,
+                            },
+                            {
+                                id: 2,
+                                text: "睡觉",
+                                done: false,
+                            },
+                            {
+                                id: 3,
+                                text: "打豆豆",
+                                done: true,
+                            },
+                        ],
+                        nextId: 4,
+                        allChecked: false,
+                    };
+                },
+                methods: {
+                    addItem() {
+                        // // judge list whether empty before add task
+                        if (!this.txt) return;
+
+                        var obj = {
+                            id: this.nextId,
+                            text: this.txt,
+                            done: false,
+                        };
+                        this.list.push(obj);
+                        this.nextId++;
+                        this.txt = "";
+                        // console.log("111");
+                    },
+                    removeItem(items) {
+                        // follow id to search current item in list position.
+                        const index = this.list.findIndex((el) => el.id == items.id);
+                        console.log(items);
+                        this.list.splice(index, 1);
+                    },
+                },
+                // add new item task
+
+                computed: {
+                    //1.计算已经完成的任务个数
+                    completed() {
+                        return this.list.filter((el) => el.done).length;
+                    },
+                    //2.根据筛选列表
+                    filterList() {
+                        // var newArr = [];
+                        // for (var i = 0; i < this.list.length; i++) {
+                        //     if (!this.list[i].done || this.allChecked == true) {
+                        //         newArr.push(this.list[i]);
+                        //     }
+                        // }
+                        // return newArr;
+                        return this.list.filter((el) => !el.done || this.allChecked);
+                    },
+                    // 3.筛选未完成的个数并添加响应的类名
+                    active() {
+                        return this.list.length - this.completed > 3 ? "danger" : "waring";
+                    },
+                },
+            });
+
+            //页面上展示的内容
+            //1.默认展示的是未完成的alLchecked=false
+            //2.全选选中 allchecked=true
+        </script>
+    </body>
+</html>
