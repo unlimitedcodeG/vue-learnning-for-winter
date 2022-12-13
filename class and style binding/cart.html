@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>购物车结算</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <style type="text/css">
+            tr:nth-of-type(1) td {
+                color: #fff;
+                background-color: #00608c;
+            }
+            td {
+                width: 80px;
+                height: 30px;
+                text-align: center;
+                background-color: #e2e2e2;
+            }
+            .del button {
+                color: #fff;
+                width: 40px;
+                height: 25px;
+                border: none;
+                border-radius: 4px;
+                background-color: #656c82;
+            }
+            .del button:hover {
+                background-color: #55557f;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <table border="1" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td>id</td>
+                    <td>书籍名称</td>
+                    <td>出版日期</td>
+                    <td>购买价格</td>
+                    <td>数量</td>
+                    <td>操作</td>
+                </tr>
+                <tr v-for="item in list" :key="item.id">
+                    <td>{{item.id}}</td>
+                    <td>{{item.book}}</td>
+                    <td>{{item.date}}</td>
+                    <td>￥{{item.price}}</td>
+                    <td>
+                        <button @click="item.count--">-</button>
+                        <span>{{item.count}}</span>
+                        <button @click="item.count++">+</button>
+                    </td>
+                    <td class="del"><button @click="del(item)">移除</button></td>
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        一共<strong> {{totalCount}} </strong>件商品总价：<strong>{{totalPrice}}</strong>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <script type="text/javascript">
+            new Vue({
+                el: "#app",
+                data: {
+                    list2: [
+                        {
+                            image: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fp6.itc.cn%2Fimages01%2F20201014%2F37156c0df061471c81bcd3f77d219927.jpeg&refer=http%3A%2F%2Fp6.itc.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1658647459&t=9ebeaad012c518bd750d40bde08ae29e",
+                            title: "垃圾桶",
+                            desc: "描述描述描述描述描述描述描述描述1",
+                            price: 300,
+                        },
+                        {
+                            image: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fb2b-jiameng.cdn.bcebos.com%2Fonline%2F2020%2F07%2F22%2F1f53d72af49b46af92b544cb6873ce1b93f4ff78%3Fw%3D333%26h%3D345%26s%3D204106%26real_w%3D408%26real_h%3D423%26x-bce-process%3Dimage%2Fresize%2Cm_lfit%2Cw_408%2Fquality%2Cq_80&refer=http%3A%2F%2Fb2b-jiameng.cdn.bcebos.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1658647459&t=91fca8df1328346c258982850d87dbdd",
+                            title: "纯棉毛巾",
+                            desc: "描述描述描述描述描述描述描述描述2",
+                            price: 300,
+                        },
+                        {
+                            image: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fg-search1.alicdn.com%2Fimg%2Fbao%2Fuploaded%2Fi2%2F2256870185%2FTB2cjYEoRyWBuNkSmFPXXXguVXa_%21%212256870185.jpg_300x300.jpg&refer=http%3A%2F%2Fg-search1.alicdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1658647459&t=e4bf0bca5bfc8d208b6fa7b2248348ee",
+                            title: "肥皂盒",
+                            desc: "描述描述描述描述描述描述描述描述2",
+                            price: 300,
+                        },
+                        {
+                            image: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg1.yiwugou.com%2Fi004%2F2017%2F11%2F28%2F72%2Fc871c0c98985843191aff6712f846cec.JPG&refer=http%3A%2F%2Fimg1.yiwugou.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1658647459&t=4fe5720632bfd01a67ddbb2f884cffcb",
+                            title: "牙刷",
+                            desc: "描述描述描述描述描述描述描述描述2",
+                            price: 300,
+                        },
+                        {
+                            image: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwww.t-jiaju.com%2FtujjJDEwLmFsaWNkbi5jb20vYmFvL3VwbG9hZGVkL2kyLzQxMjcyNjgxNTIvTzFDTjAxMkE1ZkM4OTZjMVZ3cjJEXyEhNDEyNzI2ODE1MiQ5.jpg&refer=http%3A%2F%2Fwww.t-jiaju.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1658647459&t=bb12de2fd5c90f558e4a0fad3aa17abc",
+                            title: "厨房置物架",
+                            desc: "描述描述描述描述描述描述描述描述2",
+                            price: 300,
+                        },
+                        {
+                            image: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpicnew11.photophoto.cn%2F20170308%2Fchangyongriyongpintupian-24685728_1.jpg&refer=http%3A%2F%2Fpicnew11.photophoto.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1658647459&t=673777442cc29540e59795a3c9185114",
+                            title: "卫生用品收纳",
+                            desc: "描述描述描述描述描述描述描述描述2",
+                            price: 300,
+                        },
+                        {
+                            image: "https://img0.baidu.com/it/u=3090645893,2561616499&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500",
+                            title: "牙具架",
+                            desc: "描述描述描述描述描述描述描述描述2",
+                            price: 300,
+                        },
+                        {
+                            image: "https://img0.baidu.com/it/u=33424491,2856786648&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500",
+                            title: "碗架",
+                            desc: "描述描述描述描述描述描述描述描述2",
+                            price: 300,
+                        },
+                        {
+                            image: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.alicdn.com%2Fimgextra%2Fi4%2F2211822518164%2FO1CN01k7qLmv2ABABJ0dRut_%21%212211822518164.jpg&refer=http%3A%2F%2Fimg.alicdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1658647702&t=ee1827e8f3925d860e6b5fb8a874fd00",
+                            title: "金龙鱼玉米油",
+                            desc: "描述描述描述描述描述描述描述描述2",
+                            price: 300,
+                        },
+                        {
+                            image: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.alicdn.com%2Fimgextra%2Fi1%2F2895754343%2FO1CN01aZvXAI1hx8onvT5de_%21%212895754343.jpg_500x500q90.jpg&refer=http%3A%2F%2Fimg.alicdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1658647702&t=07b0e0096ee0a45cd1e76f95a7b6d736",
+                            title: "花生油",
+                            desc: "描述描述描述描述描述描述描述描述2",
+                            price: 300,
+                        },
+                    ],
+                    list: [
+                        { id: 1, book: "小绿书", date: "2002-9", price: "100.00", count: 0 },
+                        { id: 2, book: "小红书", date: "2016-9", price: "167.00", count: 0 },
+                        { id: 3, book: "小蓝书", date: "2004-9", price: "217.00", count: 0 },
+                        { id: 4, book: "小黑书", date: "2012-9", price: "354.00", count: 0 },
+                        { id: 5, book: "小黄书", date: "2025-9", price: "897.00", count: 0 },
+                    ],
+                },
+                methods: {
+                    // 删除
+                    del(item) {
+                        console.log(item);
+                        // 查找item在list的下标
+                        // value遍历的元素当value的id值等于item的id
+                        var ind = this.list.findIndex((value) => value.id === item.id);
+                        // 删除list第ind个
+                        // splice(从第几个，删除几个，添加内容)
+                        this.list.splice(ind, 1);
+                    },
+                },
+                computed: {
+                    // 总件数
+                    totalCount: function () {
+                        var totalCount = 0;
+                        for (var i = 0; i < this.list.length; i++) {
+                            totalCount += this.list[i].count;
+                        }
+                        return totalCount;
+                    },
+                    // 总价钱
+                    totalPrice: function () {
+                        var totalPrice = 0;
+                        for (var i = 0; i < this.list.length; i++) {
+                            totalPrice += this.list[i].price * this.list[i].count;
+                        }
+                        return totalPrice;
+                    },
+                },
+            });
+        </script>
+    </body>
+</html>
