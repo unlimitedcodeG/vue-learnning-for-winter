@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Vue 测试实例 - 菜鸟教程(runoob.com)</title>
+        <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <p>原始字符串: {{ message }}</p>
+            <p>计算后反转字符串: {{ reversedMessage }}</p>
+        </div>
+
+        <script>
+            var vm = new Vue({
+                el: "#app",
+                data: {
+                    message: "Runoob!",
+                },
+                computed: {
+                    // 计算属性的 getter
+                    reversedMessage: function () {
+                        // `this` 指向 vm 实例
+                        return this.message.split("").reverse().join("");
+                    },
+                },
+            });
+        </script>
+    </body>
+</html>
